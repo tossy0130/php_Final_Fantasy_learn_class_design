@@ -6,12 +6,13 @@ class Enemy
     const MAX_HP = 50; // 最大 HP 
     private $name;
     private $hitPoint = 50; // 現在のHP 
-    private $attackPoint = 10; // 攻撃力
+    private $attackPoint = 5; // 攻撃力
 
     // ====== コンストラクター
-    public function __construct($name)
+    public function __construct($name, $attackPoint)
     {
         $this->name = $name;
+        $this->attackPoint = $attackPoint;
     }
 
 
@@ -35,10 +36,21 @@ class Enemy
 
 
     // === 攻撃メソッド
-    public function doAttack($human)
+    // public function doAttack($human)
+    public function doAttack($humans)
     {
-        echo "『" . $this->name . "』の攻撃！\n";
-        echo "【" . $human->name . "】に " . $this->attackPoint . " のダメージ！\n";
+
+        // === 自分自身の ヒットポイント（HP）が 0かどうか判定
+        if ($this->getHitPoint() <= 0) {
+            return false;
+        }
+
+        $humanIndex = rand(0, count($humans) - 1); // indexが 0からなので
+        $human = $humans[$humanIndex];
+
+
+        echo "『" . $this->getName() . "』の攻撃！\n";
+        echo "【" . $human->getName() . "】に " . $this->getAttackPoint() . " のダメージ！\n";
 
         $human->tookDamage($this->attackPoint); // 引数に現在の　HP　を入れる
 
